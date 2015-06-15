@@ -1,0 +1,46 @@
+extends layout
+
+block content
+
+	link(rel='stylesheet' href='/stylesheets/start.css')
+
+	script().
+		function enterUser() {
+			var form = document.getElementById('enterForm');
+			form.action = '/enter';
+			form.submit();
+		}
+
+		function regUser() {
+			var form = document.getElementById('regForm');
+			form.action = '/reg';
+			form.submit();
+		}
+
+	div(class='row')
+		h1(class='col-md-6 header') Крестики vs Нолики
+
+		form(role='form' class='col-md-6 form-inline' method='POST' action='' id='enterForm')
+			div(class='form-group')
+				label(class='sr-only' for='enterLogin') Логин
+				input(type='login' class='form-control' id='enterLogin' name='enterLogin' placeholder='Логин')
+			div(class='form-group')
+				label(class='sr-only' for='enterPassword') Пароль
+				input(type='password' class='form-control' id='enterPassword' name='enterPassword' placeholder='Пароль')
+			div(class='form-group')
+				button(type='button' class='btn btn-default' onclick='enterUser();') Вход
+
+
+	form(role='form' method='POST' action='' id='regForm')
+		div(class='form-group')
+			label(for='inputLogin') Логин
+			input(type='login' class='form-control' id='regLogin' name='regLogin' placeholder='Введите логин')
+		div(class='form-group')
+			label(for='inputPassword') Пароль
+			input(type='password' class='form-control' id='regPassword' name='regPassword' placeholder='Введите пароль')
+		div(class='form-group')
+			label(for='repetePassword') Повторите пароль
+			input(type='password' class='form-control' id='regRepetePassword' name='regRepetePassword' placeholder='Повторите пароль')
+		div(class='form-group')
+			button(type='button' class='btn btn-default' onclick='regUser();') Отправить
+	

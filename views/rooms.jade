@@ -1,0 +1,42 @@
+extends layout
+
+block content
+
+	link(rel='stylesheet' href='/stylesheets/rooms.css')
+
+	div(class='row')
+		h1(class='header') Крестики vs Нолики
+
+
+
+	table(class='table table-hover' id='online')
+		thead
+			tr
+				td Игроки онлайн
+		tbody(class='table-hover')
+
+
+	script().
+
+		$(document).ready(function() {
+			socket.emit('new user', '#{name}');
+
+			$('td').click(function() {
+				socket.emit('room chosen', this.id);
+			});
+		});
+
+		socket = io();
+
+		socket.on('new user', function(players_online, id) {
+			$('tbody').empty();
+
+			for (var i = 0; i < players_online.length; i++) {
+				if (players_online[i] != '#{name}') {
+					$('tbody').append('<tr><td id=' + id + '>' + players_online[i] + '</td></tr>');
+				}
+			}
+		});
+
+				
+

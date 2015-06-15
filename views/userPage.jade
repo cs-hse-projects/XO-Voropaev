@@ -1,0 +1,206 @@
+extends layout
+
+block content
+
+	link(rel='stylesheet' href='/stylesheets/user.css')
+
+
+	div(class='row')
+		h1(class='col-md-6 header') Крестики vs Нолики
+		h1(class='col-md-6' id='name')
+
+
+
+	h1(id='finish')
+
+	game(id='game')
+
+		table(id='playingField')
+			tr
+				td
+					div(class='row1 column1')
+						table(border='2' align='center')
+							tr
+								td(id='11' class='q')
+								td(id='12' class='q')
+								td(id='13' class='q')
+							tr
+								td(id='21' class='q')
+								td(id='22' class='q')
+								td(id='23' class='q')
+							tr
+								td(id='31' class='q')
+								td(id='32' class='q')
+								td(id='33' class='q')
+				td
+					div(class='row1 column2')
+						table(border='2' align='center')
+							tr
+								td(id='14' class='q')
+								td(id='15' class='q')
+								td(id='16' class='q')
+							tr
+								td(id='24' class='q')
+								td(id='25' class='q')
+								td(id='26' class='q')
+							tr
+								td(id='34' class='q')
+								td(id='35' class='q')
+								td(id='36' class='q')
+				td
+					div(class='row1 column3')
+						table(border='2' align='center')
+							tr
+								td(id='17' class='q')
+								td(id='18' class='q')
+								td(id='19' class='q')
+							tr
+								td(id='27' class='q')
+								td(id='28' class='q')
+								td(id='29' class='q')
+							tr
+								td(id='37' class='q')
+								td(id='38' class='q')
+								td(id='39' class='q')
+			tr
+				td
+					div(class='row2 column1')
+						table(border='2' align='center')
+							tr
+								td(id='41' class='q')
+								td(id='42' class='q')
+								td(id='43' class='q')
+							tr
+								td(id='51' class='q')
+								td(id='52' class='q')
+								td(id='53' class='q')
+							tr
+								td(id='61' class='q')
+								td(id='62' class='q')
+								td(id='63' class='q')
+				td
+					div(class='row2 column2')
+						table(border='2' align='center')
+							tr
+								td(id='44' class='q')
+								td(id='45' class='q')
+								td(id='46' class='q')
+							tr
+								td(id='54' class='q')
+								td(id='55' class='q')
+								td(id='56' class='q')
+							tr
+								td(id='64' class='q')
+								td(id='65' class='q')
+								td(id='66' class='q')
+				td
+					div(class='row2 column3')
+						table(border='2' align='center')
+							tr
+								td(id='47' class='q')
+								td(id='48' class='q')
+								td(id='49' class='q')
+							tr
+								td(id='57' class='q')
+								td(id='58' class='q')
+								td(id='59' class='q')
+							tr
+								td(id='67' class='q')
+								td(id='68' class='q')
+								td(id='69' class='q')
+			tr
+				td
+					div(class='row3 column1')
+						table(border='2' align='center')
+							tr
+								td(id='71' class='q')
+								td(id='72' class='q')
+								td(id='73' class='q')
+							tr
+								td(id='81' class='q')
+								td(id='82' class='q')
+								td(id='83' class='q')
+							tr
+								td(id='91' class='q')
+								td(id='92' class='q')
+								td(id='93' class='q')
+				td
+					div(class='row3 column2')
+						table(border='2' align='center')
+							tr
+								td(id='74' class='q')
+								td(id='75' class='q')
+								td(id='76' class='q')
+							tr
+								td(id='84' class='q')
+								td(id='85' class='q')
+								td(id='86' class='q')
+							tr
+								td(id='94' class='q')
+								td(id='95' class='q')
+								td(id='96' class='q')
+				td
+					div(class='row3 column3')
+						table(border='2' align='center')
+							tr
+								td(id='77' class='q ')
+								td(id='78' class='q')
+								td(id='79' class='q')
+							tr
+								td(id='87' class='q')
+								td(id='88' class='q')
+								td(id='89' class='q')
+							tr
+								td(id='97' class='q')
+								td(id='98' class='q')
+								td(id='99' class='q')
+
+	script().
+
+		$(document).ready(function() {
+
+			socket.emit('new user');
+					
+			$('.q').click(function() {
+				socket.emit('turn', this.id);
+			});
+		});
+
+
+
+		var socket = io();
+
+		socket.on('first player', function() {
+			$('#name').html('Player 1');
+		});
+
+		socket.on('second player', function() {
+			$('#name').html('Player 2');
+		});
+
+		socket.on('turn', function(field) {
+			for (var i = 1; i <= 9; ++i) {
+				for (var j = 1; j <= 9; ++j) {
+					$('#' + i + j).removeClass();
+					$('#' + i + j).addClass('q');
+					if (field[i][j] == 1) {
+						$('#' + i + j).addClass('red');
+					}
+					else if (field[i][j] == 2) {
+						$('#' + i + j).addClass('blue');
+						}
+				}
+			}
+		});
+
+		socket.on('end game', function(winner) {
+			$('#game').hide();
+			$('#finish').html('Player ' + winner + 'won!');
+		});
+
+		socket.on('draw', function() {
+			$('#game').hide();
+			$('#finish').html('Draw!');
+		});
+
+

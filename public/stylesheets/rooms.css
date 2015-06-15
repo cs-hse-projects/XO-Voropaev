@@ -1,0 +1,16 @@
+body {
+	background-color: #B0E0E6;
+}
+
+.row {
+	background-color: #5F9EA0;
+}
+
+.row .header {
+	text-align: center;
+}
+
+table {
+	margin: auto;
+	text-align: center;
+}
